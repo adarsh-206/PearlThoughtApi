@@ -12,6 +12,14 @@ mongoose.connect('mongodb://user:user@ac-9qzpedu-shard-00-00.s1peixs.mongodb.net
     useUnifiedTopology: true,
 });
 
+app.get('/', async (req, res) => {
+    try {
+        res.json("Visit /doctors for doctors list");
+    } catch (error) {
+        res.status(500).json({ error: 'An error occurred.' });
+    }
+});
+
 app.post('/adddoctors', async (req, res) => {
     const { name, specialty, location, consultationLimit, workingDays } = req.body; // Extract data from the request body
 
