@@ -13,11 +13,40 @@ mongoose.connect('mongodb://user:user@ac-9qzpedu-shard-00-00.s1peixs.mongodb.net
 });
 
 app.get('/', async (req, res) => {
-    try {
-        res.json("Visit /doctors for doctors list");
-    } catch (error) {
-        res.status(500).json({ error: 'An error occurred.' });
-    }
+    const apiGuide = {
+        '/adddoctors (POST)': {
+            description: 'Register a new doctor.',
+            requestFormat: {
+                name: 'Doctor Name',
+                specialty: 'Specialty',
+                location: 'Location',
+                consultationLimit: 10,
+                workingDays: [1, 2, 3, 4, 5],
+            },
+            responseFormat: 'Details of the registered doctor.',
+        },
+        '/doctors (GET)': {
+            description: 'Get a list of all registered doctors.',
+        },
+        '/doctors/:doctorId (GET)': {
+            description: 'Get details of a specific doctor by providing their ID in the URL.',
+            requestFormat: {
+                doctorId: 'Doctor ID',
+            },
+            responseFormat: 'Details of the specific doctor.',
+        },
+        '/appointments (POST)': {
+            description: 'Book a new appointment with a doctor.',
+            requestFormat: {
+                doctorId: 'Doctor ID',
+                patientName: 'Patient Name',
+                appointmentDate: '2023-09-27T18:00:00.000Z',
+            },
+            responseFormat: 'Details of the booked appointment.',
+        },
+    };
+
+    res.json(apiGuide);
 });
 
 app.post('/adddoctors', async (req, res) => {
